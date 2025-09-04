@@ -24,9 +24,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
     "langgraph>=0.0.30" \
     "openai>=1.0.0" \
     "anthropic>=0.20.0" \
-    "llamaindex>=0.10.0" \
-    "dspy-ai>=2.4.0" \
-    "autogen-agentchat>=0.2.0" \
+    "llama-index>=0.10.0" \
+    "dspy>=2.4.0" \
     && pip cache purge
 
 # Verify MLflow version and GenAI support
