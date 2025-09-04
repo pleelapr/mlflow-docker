@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python packages - comprehensive installation with proper quoting
+# Install Python packages with FULL tracing support
 RUN pip install --no-cache-dir \
     "mlflow[extras,auth,langchain,databricks,gateway,genai]==3.3.2" \
     psycopg2-binary \
