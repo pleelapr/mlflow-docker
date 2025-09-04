@@ -11,20 +11,20 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python packages - comprehensive installation
+# Install Python packages - comprehensive installation with proper quoting
 RUN pip install --no-cache-dir \
-    mlflow[extras,auth,langchain,databricks,gateway,genai]==3.3.2 \
+    "mlflow[extras,auth,langchain,databricks,gateway,genai]==3.3.2" \
     psycopg2-binary \
     boto3 \
     gunicorn \
-    langchain>=0.1.0,<=0.3.27 \
+    "langchain>=0.1.0,<=0.3.27" \
     langchain-openai \
     langchain-community \
     langgraph \
     openai \
     anthropic \
     tavily-python \
-    pydantic>=2.0 \
+    "pydantic>=2.0" \
     httpx \
     aiohttp
 
