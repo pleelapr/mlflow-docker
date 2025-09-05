@@ -1,6 +1,6 @@
 # MLflow for DigitalOcean App Platform - Matches Official Docker Setup
 # Uses same base as official MLflow Docker image
-FROM ghcr.io/mlflow/mlflow:latest
+FROM ghcr.io/mlflow/mlflow:v3.3.1
 
 # Install additional dependencies needed for your setup (PostgreSQL + S3)
 # This matches the official Docker setup command
