@@ -4,7 +4,7 @@ FROM ghcr.io/mlflow/mlflow:v3.3.1
 
 # Install additional dependencies needed for your setup (PostgreSQL + S3)
 # This matches the official Docker setup command
-RUN pip install --no-cache-dir psycopg2-binary boto3
+RUN pip install --no-cache-dir psycopg2-binary boto3 mlflow[genai] opentelemetry-api opentelemetry-sdk
 
 # Verify installation
 RUN python -c "import mlflow; print(f'✓ MLflow version: {mlflow.__version__}'); import mlflow.tracing; print('✓ Tracing support available')"
