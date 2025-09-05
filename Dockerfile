@@ -1,4 +1,5 @@
-# MLflow 3.3.2 with Full GenAI Tracing Support
+# MLflow 3.3.2 for DigitalOcean App Platform
+# Optimized for DO builds with custom run commands
 FROM python:3.11-slim
 
 # Install system dependencies
@@ -11,7 +12,7 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /mlflow
 
-# Install MLflow 3.3.2 with ALL extras and GenAI support
+# Install MLflow 3.3.2 with full GenAI and UI support
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir \
     "mlflow[extras]==3.3.2" \
@@ -21,27 +22,19 @@ RUN pip install --no-cache-dir --upgrade pip && \
     "langchain>=0.1.0,<0.4.0" \
     "langchain-openai>=0.1.0" \
     "langchain-community>=0.0.20" \
-    "langgraph>=0.0.30" \
     "openai>=1.0.0" \
-    "anthropic>=0.20.0" \
-    "llama-index>=0.10.0" \
-    "dspy>=2.4.0" \
     && pip cache purge
 
-# Verify MLflow version and GenAI support
-RUN python -c "import mlflow; print(f'MLflow version: {mlflow.__version__}'); import mlflow.tracing; import mlflow.langchain; print('✓ GenAI tracing support available')"
+# Verify MLflow installation and GenAI support
+RUN python -c "import mlflow; print(f'✓ MLflow version: {mlflow.__version__}'); import mlflow.tracing; import mlflow.langchain; import mlflow.openai; print('✓ GenAI tracing support available')"
 
-# Set environment variables for tracing
+# Set environment variables for optimal MLflow operation
 ENV MLFLOW_ENABLE_TRACING=true
 ENV MLFLOW_ENABLE_RICH_LOGGING=false
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:5000/health || exit 1
-
-# Expose port
+# Expose port (DigitalOcean will handle port mapping)
 EXPOSE 5000
 
-# Default command (can be overridden)
-CMD ["mlflow", "server", "--host", "0.0.0.0", "--port", "5000"]
+# No CMD - DigitalOcean will specify the run command
