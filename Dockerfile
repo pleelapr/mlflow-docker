@@ -1,32 +1,13 @@
-# MLflow 3.3.2 for DigitalOcean App Platform
-# Optimized for DO builds with custom run commands
-FROM python:3.11-slim
+# MLflow for DigitalOcean App Platform - Matches Official Docker Setup
+# Uses same base as official MLflow Docker image
+FROM ghcr.io/mlflow/mlflow:latest
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    curl \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+# Install additional dependencies needed for your setup (PostgreSQL + S3)
+# This matches the official Docker setup command
+RUN pip install --no-cache-dir psycopg2-binary boto3
 
-# Set working directory
-WORKDIR /mlflow
-
-# Install MLflow 3.3.2 with full GenAI and UI support
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir \
-    "mlflow[extras]==3.3.2" \
-    psycopg2-binary \
-    boto3 \
-    gunicorn \
-    "langchain>=0.1.0,<0.4.0" \
-    "langchain-openai>=0.1.0" \
-    "langchain-community>=0.0.20" \
-    "openai>=1.0.0" \
-    && pip cache purge
-
-# Verify MLflow installation and GenAI support
-RUN python -c "import mlflow; print(f'✓ MLflow version: {mlflow.__version__}'); import mlflow.tracing; import mlflow.langchain; import mlflow.openai; print('✓ GenAI tracing support available')"
+# Verify installation
+RUN python -c "import mlflow; print(f'✓ MLflow version: {mlflow.__version__}'); import mlflow.tracing; print('✓ Tracing support available')"
 
 # Set environment variables for optimal MLflow operation
 ENV MLFLOW_ENABLE_TRACING=true
